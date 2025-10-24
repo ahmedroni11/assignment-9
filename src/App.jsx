@@ -342,3 +342,32 @@ function Home() {
   );
 }
 
+/* -------------------------
+   Listings page
+   -------------------------*/
+function Listings() {
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <h3 className="text-2xl mb-4">All Listings</h3>
+      <div className="grid md:grid-cols-3 gap-6">
+        {skillsData.map((s) => (
+          <div key={s.skillId} className="card bg-base-100 shadow">
+            <figure><img src={s.image} alt={s.skillName} className="h-full w-full object-cover" /></figure>
+            <div className="card-body">
+              <h4 className="font-semibold">{s.skillName}</h4>
+              <p className="text-xs text-muted">{s.providerName} • {s.category}</p>
+              <div className="flex items-center justify-between mt-3">
+                <div>
+                  <span className="font-bold">${s.price}</span>
+                  <span className="text-xs ml-2"> • {s.rating} ★</span>
+                </div>
+                <Link to={`/skills/${s.skillId}`} className="btn btn-sm btn-outline">View Details</Link>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
