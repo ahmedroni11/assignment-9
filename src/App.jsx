@@ -460,3 +460,148 @@ function SkillDetailsPage() {
   );
 }
 
+/* -------------------------
+   Auth pages
+   -------------------------*/
+function LoginPage() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [show, setShow] = useState(false);
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      toast.success("Logged in");
+      navigate(from, { replace: true });
+    } catch (err) {
+      toast.error(err.message || "Login failed");
+    }
+  };
+
+  const handleGoogle = async () => {
+    try {
+      await signInWithPopup(auth, googleProvider);
+      toast.success("Logged in with Google");
+      navigate(from, { replace: true });
+    } catch (err) {
+      toast.error(err.message || "Google login failed");
+    }
+  };
+
+  const handleForgot = () => {
+    navigate("/forgot-password", { state: { email } });
+  };
+
+  return (
+    <div className="container mx-auto px-4 py-12 max-w-md">
+      <div className="card p-6 shadow">
+        <h3 className="text-xl font-semibold mb-4">Login</h3>
+        <form onSubmit={handleLogin} className="space-y-3">
+          <div>
+            <label className="block text-xs">Email</label>
+            <input type="email" className="input input-bordered w-full" value={email} onChange={(e)=>setEmail(e.target.value)} required/>
+          </div>
+          <div>
+            <label className="block text-xs">Password</label>
+            <div className="relative">
+              <input type={show ? "text" : "password"} className="input input-bordered w-full pr-10" value={password} onChange={(e)=>setPassword(e.target.value)} required/>
+              <button type="button" onClick={()=>setShow(s=>!s)} className="absolute right-2 top-2 text-sm btn btn-ghost btn-xs">
+                {show ? "Hide" : "Show"}
+              </button>
+            </div>
+          </div>
+          <div className="flex justify-between items-center">
+            <button className="btn btn-primary">Login</button>
+            <button type="button" className="link" onClick={handleForgot}>Forgot Password?</button>
+          </div>
+        </form>
+
+        <div className="divider">OR</div>
+
+        <button onClick={handleGoogle} className="btn btn-outline w-full">Continue with Google</button>
+
+        <p className="text-sm mt-3">Don't have an account? <Link to="/signup" className="link">Signup</Link></p>
+      </div>
+    </div>
+  );
+}
+
+function SignupPage() {
+  const navigate = useNavigate();
+  const [form, setForm] = useState({ name: "", email: "", photo: "", password: "" });
+  const [show, setShow] = useState(false);
+
+  function validPassword(pw) {
+    return /[A-Z]/.test(pw) && /[a-z]/.test(pw) && pw.length >= 6;
+  }
+
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    if (!validPassword(form.password)) {
+      return toast.error("Password must be 6+ chars, include uppercase and lowercase.");
+    }
+    try {
+      const cred = await createUserWithEmailAndPassword(auth, form.email, form.password);
+      await updateProfile(cred.user, { displayName: form.name, photoURL: form.photo });
+      toast.success("Account created");
+      navigate("/", { replace: true });
+    } catch (err) {
+      toast.error(err.message || "Signup failed");
+    }
+  };
+
+  const handleGoogle = async () => {
+    try {
+      await signInWithPopup(auth, googleProvider);
+      toast.success("Signed in with Google");
+      navigate("/", { replace: true });
+    } catch (err) {
+      toast.error(err.message || "Google login failed");
+    }
+  };
+
+  return (
+    <div className="container mx-auto px-4 py-12 max-w-md">
+      <div className="card p-6 shadow">
+        <h3 className="text-xl font-semibold mb-4">Signup</h3>
+        <form onSubmit={handleSignup} className="space-y-3">
+          <div>
+            <label className="block text-xs">Name</label>
+            <input className="input input-bordered w-full" value={form.name} onChange={(e)=>setForm({...form,name:e.target.value})} required/>
+          </div>
+          <div>
+            <label className="block text-xs">Email</label>
+            <input type="email" className="input input-bordered w-full" value={form.email} onChange={(e)=>setForm({...form,email:e.target.value})} required/>
+          </div>
+          <div>
+            <label className="block text-xs">Photo URL</label>
+            <input className="input input-bordered w-full" value={form.photo} onChange={(e)=>setForm({...form,photo:e.target.value})}/>
+          </div>
+          <div>
+            <label className="block text-xs">Password</label>
+            <div className="relative">
+              <input type={show ? "text" : "password"} className="input input-bordered w-full pr-10" value={form.password} onChange={(e)=>setForm({...form,password:e.target.value})} required/>
+              <button type="button" onClick={()=>setShow(s=>!s)} className="absolute right-2 top-2 text-sm btn btn-ghost btn-xs">
+                {show ? "Hide" : "Show"}
+              </button>
+            </div>
+            <p className="text-xs mt-1 text-muted">At least 6 characters, include uppercase & lowercase</p>
+          </div>
+
+          <button className="btn btn-primary w-full">Register</button>
+        </form>
+
+        <div className="divider">OR</div>
+
+        <button onClick={handleGoogle} className="btn btn-outline w-full">Continue with Google</button>
+
+        <p className="text-sm mt-3">Already have an account? <Link to="/login" className="link">Login</Link></p>
+      </div>
+    </div>
+  );
+}
+
