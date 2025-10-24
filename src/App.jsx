@@ -605,3 +605,33 @@ function SignupPage() {
   );
 }
 
+/* -------------------------
+   Forgot Password Page
+   -------------------------*/
+function ForgotPasswordPage() {
+  const location = useLocation();
+  const [email, setEmail] = useState(location.state?.email || "");
+  const handleReset = async (e) => {
+    e.preventDefault();
+    try {
+      await sendPasswordResetEmail(auth, email);
+      toast.success("Reset email sent — opening Gmail");
+      
+      window.open("https://mail.google.com", "_blank");
+    } catch (err) {
+      toast.error(err.message || "Reset failed");
+    }
+  };
+  return (
+    <div className="container mx-auto px-4 py-12 max-w-md">
+      <div className="card p-6 shadow">
+        <h3 className="text-xl font-semibold mb-4">Reset Password</h3>
+        <form onSubmit={handleReset} className="space-y-3">
+          <input type="email" className="input input-bordered w-full" value={email} onChange={(e)=>setEmail(e.target.value)} required/>
+          <button className="btn btn-primary w-full">Send Reset Email</button>
+        </form>
+      </div>
+    </div>
+  );
+}
+
