@@ -167,4 +167,34 @@ function Navbar({ user, onLogout }) {
   );
 }
 
+/* -------------------------
+   Footer
+   -------------------------*/
+function Footer() {
+  return (
+    <footer className="bg-base-300 mt-12">
+      <div className="container mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div>
+          <img className="w-34 flex items-center" src="https://i.postimg.cc/C1NB5Pzn/Black-White-Simpel-Monochrome-Initial-Name-Logo.png" alt="" />
+          
+        </div>
+        <div>
+          <h4 className="font-semibold">Contact</h4>
+          <p className="text-sm">email: ahmedroniarm@gmail.com</p>
+          <p className="text-sm">phone: +880 1234 567890</p>
+        </div>
+        <div>
+          <h4 className="font-semibold">Links</h4>
+          <Link className="block text-sm" to="/privacy">Privacy Policy</Link>
+          <div className="flex gap-2 mt-2">
+            <a target="_blank" rel="noreferrer" href="https://facebook.com" className="link">Facebook</a>
+            <a target="_blank" rel="noreferrer" href="https://instagram.com" className="link">Instagram</a>
+            <a target="_blank" rel="noreferrer" href="https://twitter.com" className="link">Twitter</a>
+          </div>
+        </div>
+      </div>
+      <div className="bg-base-200 text-center py-3">© {new Date().getFullYear()} SkillSwap</div>
+    </footer>
+  );
+}
 
