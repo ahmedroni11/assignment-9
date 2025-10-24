@@ -133,7 +133,7 @@ function Navbar({ user, onLogout }) {
         <div className="flex items-center gap-3">
           <Link to="/" className="flex items-center gap-2">
             
-            <span className="font-semibold text-lg"><img className="w-34 flex items-center" src="https://i.postimg.cc/C1NB5Pzn/Black-White-Simpel-Monochrome-Initial-Name-Logo.png" alt="" /></span>
+            <span className="font-semibold text-lg"><img className="w-34 flex items-center" src="https://i.postimg.cc/PJ7nbRKG/Black-White-Simpel-Monochrome-Initial-Name-Logo-removebg-preview.png" alt="" /></span>
           </Link>
         </div>
 
@@ -157,8 +157,8 @@ function Navbar({ user, onLogout }) {
             </>
           ) : (
             <>
-              <Link to="/login" className="btn btn-primary btn-sm">Login</Link>
-              <Link to="/signup" className="btn btn-outline btn-sm">Signup</Link>
+              <Link to="/login" className="btn btn-primary btn-sm px-6 text-[16px]">Login</Link>
+              <Link to="/signup" className="btn btn-outline btn-sm px-4 text-[16px]">Signup</Link>
             </>
           )}
         </div>
@@ -175,7 +175,7 @@ function Footer() {
     <footer className="bg-base-300 mt-12">
       <div className="container mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-3 gap-6">
         <div>
-          <img className="w-34 flex items-center" src="https://i.postimg.cc/C1NB5Pzn/Black-White-Simpel-Monochrome-Initial-Name-Logo.png" alt="" />
+          <img className="w-34 flex items-center" src="https://i.postimg.cc/PJ7nbRKG/Black-White-Simpel-Monochrome-Initial-Name-Logo-removebg-preview.png" alt="" />
           
         </div>
         <div>
@@ -195,6 +195,150 @@ function Footer() {
       </div>
       <div className="bg-base-200 text-center py-3">© {new Date().getFullYear()} SkillSwap</div>
     </footer>
+  );
+}
+
+/* -------------------------
+   Home
+   -------------------------*/
+function Home() {
+  useEffect(() => {
+    AOS.init({ duration: 700, once: true });
+  }, []);
+
+  const popular = skillsData.slice(0, 4);
+
+  return (
+    <main className="container mx-auto px-4 py-8">
+      <section className="mb-8">
+        <Swiper slidesPerView={1} pagination={{ clickable: true }} className="h-64 rounded-lg overflow-hidden">
+          <SwiperSlide>
+            <div className="w-full h-64 flex items-center justify-between bg-gradient-to-r from-indigo-400 to-fuchsia-500 p-6 rounded-lg text-white">
+              <div>
+                <h2 className="text-3xl font-bold">Learn a New Skill From your Neighborhood</h2>
+                
+                <Link to="/listings" className="btn btn-outline btn-accent mt-4 border-white text-white hover-bg-white">Browse Listings</Link>
+              </div>
+              <img src="https://i.postimg.cc/sxq6CS0k/No-experience-needed-Learn-step-by-step-how-to-start-affiliate-marketing-and-see-results-within-w.jpg " alt="hero" className="hidden md:block w-48 rounded-2xl shadow-xl"/>
+            </div>
+          </SwiperSlide>
+
+          <SwiperSlide>
+            <div className="w-full h-64 flex items-center justify-between bg-gradient-to-r from-green-400 to-blue-500 p-6 rounded-lg text-white">
+              <div>
+                <h2 className="text-3xl font-bold">Share what you know — get what you need</h2>
+                <p className="mt-2">Create listings and help others learn your craft.</p>
+                <Link to="/create" className="btn btn-primary mt-4">Create Listing</Link>
+              </div>
+            </div>
+          </SwiperSlide>
+        </Swiper>
+      </section>
+
+      <section className="mb-8">
+        <h3 className="text-2xl font-semibold mb-4">Popular Skills</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {popular.map((s) => (
+            <div data-aos="fade-up" key={s.skillId} className="card bg-base-100 shadow-md">
+              <figure><img src={s.image} alt={s.skillName} className=" w-full h-full bg-centerobject-cover rounded-xl " /></figure>
+              <div className="card-body">
+                <h4 className="font-semibold">{s.skillName}</h4>
+                <p className="text-xs text-muted">{s.providerName} • {s.category}</p>
+                <div className="flex items-center justify-between mt-3">
+                  <div>
+                    <span className="font-bold">${s.price}</span>
+                    <span className="text-xs ml-2"> • {s.rating} ★</span>
+                  </div>
+                  <Link to={`/skills/${s.skillId}`} className="btn btn-sm btn-outline">View Details</Link>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="mb-8" data-aos="fade-up">
+        <h3 className="text-2xl font-semibold mb-4">Top Rated Providers</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="card p-4">
+            <div className="flex items-center gap-4">
+              <div className="avatar">
+                <div className="w-12 h-12 rounded-full ring ring-primary"><img src="https://i.postimg.cc/JhtF96Gk/aee6d45245609592339c8508ae27182d.jpg" alt="" /></div>
+              </div>
+              <div>
+                <div className="font-semibold">Alex Martin</div>
+                <div className="text-xs text-muted">Guitar • 4.8★</div>
+              </div>
+            </div>
+          </div>
+          <div className="card p-4">
+            <div className="flex items-center gap-4">
+              <div className="avatar">
+                <div className="w-12 h-12 rounded-full ring ring-primary"><img src="https://i.postimg.cc/dQ7q866N/Whats-App-Image-2025-06-29-at-21-22-00-141769e7-removebg-preview.png" alt="" /></div>
+              </div>
+              <div>
+                <div className="font-semibold">Ahmed Roni</div>
+                <div className="text-xs text-muted">Web Dev • 4.9★</div>
+              </div>
+            </div>
+          </div>
+          <div className="card p-4">
+            <div className="flex items-center gap-4">
+              <div className="avatar">
+                <div className="w-12 h-12 rounded-full ring ring-primary"><img src="https://i.postimg.cc/dQWy0513/17a9506d5ebb5ed180972b1ad4be212a.jpg" alt="" /></div>
+              </div>
+              <div>
+                <div className="font-semibold">Nour Rahman</div>
+                <div className="text-xs text-muted">Photography • 4.85★</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="mb-8" data-aos="fade-up">
+        <h3 className="text-2xl font-semibold mb-4">How It Works</h3>
+        <div className="grid md:grid-cols-3 gap-6">
+          <div className="p-6 bg-base-100 rounded shadow">
+            <h4 className="font-semibold">1. Browse</h4>
+            <p className="text-sm">Search listings by category or location.</p>
+          </div>
+          <div className="p-6 bg-base-100 rounded shadow">
+            <h4 className="font-semibold">2. Connect</h4>
+            <p className="text-sm">Message the provider & book a session.</p>
+          </div>
+          <div className="p-6 bg-base-100 rounded shadow">
+            <h4 className="font-semibold">3. Rate</h4>
+            <p className="text-sm">Leave feedback and help others choose.</p>
+          </div>
+        </div>
+      </section>
+
+      <section data-aos="fade-up">
+        <h3 className="text-2xl font-semibold mb-4">Community Events</h3>
+        <p className="mb-3 text-sm">Local meetups where providers/demo sessions happen. Good for trying a class before booking.</p>
+        <div className="grid sm:grid-cols-2 gap-4">
+          <div className="card p-4">
+            <div className="flex justify-between items-start">
+              <div>
+                <h4 className="font-semibold">Open Jam Night</h4>
+                <p className="text-xs text-muted">Saturday • 6:00 PM • Community Center</p>
+              </div>
+              <button className="btn btn-sm">Attend</button>
+            </div>
+          </div>
+          <div className="card p-4">
+            <div className="flex justify-between items-start">
+              <div>
+                <h4 className="font-semibold">Beginner Coding Meetup</h4>
+                <p className="text-xs text-muted">Sunday • 11:00 AM • Library</p>
+              </div>
+              <button className="btn btn-sm">Attend</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
   );
 }
 
