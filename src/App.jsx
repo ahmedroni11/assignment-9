@@ -123,4 +123,48 @@ const skillsData = [
   },
 ];
 
+/* -------------------------
+   Navbar component
+   -------------------------*/
+function Navbar({ user, onLogout }) {
+  return (
+    <nav className="bg-base-200 shadow sticky top-0 z-40">
+      <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <Link to="/" className="flex items-center gap-2">
+            
+            <span className="font-semibold text-lg"><img className="w-34 flex items-center" src="https://i.postimg.cc/C1NB5Pzn/Black-White-Simpel-Monochrome-Initial-Name-Logo.png" alt="" /></span>
+          </Link>
+        </div>
+
+        <div className="flex items-center gap-4 font-semibold">
+          <Link to="/" className="hover:underline ">Home</Link>
+          <Link to="/listings" className="hover:underline">Listings</Link>
+          <Link to="/events" className="hover:underline">Events</Link>
+          <Link to="/profile" className="hover:underline">My Profile</Link>
+
+          {user ? (
+            <>
+              <div className="flex items-center gap-2">
+                <img
+                  src={user.photoURL || `https://ui-avatars.com/api/?name=${(user.displayName || user.email || "U").split(" ")[0]}`}
+                  alt="avatar"
+                  className="w-9 h-9 rounded-full object-cover border"
+                  title={user.displayName || user.email}
+                />
+                <button onClick={onLogout} className="btn btn-ghost btn-sm">Logout</button>
+              </div>
+            </>
+          ) : (
+            <>
+              <Link to="/login" className="btn btn-primary btn-sm">Login</Link>
+              <Link to="/signup" className="btn btn-outline btn-sm">Signup</Link>
+            </>
+          )}
+        </div>
+      </div>
+    </nav>
+  );
 }
+
+
