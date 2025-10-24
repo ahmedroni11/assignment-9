@@ -175,25 +175,43 @@ function Footer() {
     <footer className="bg-base-300 mt-12">
       <div className="container mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-3 gap-6">
         <div>
-          <img className="w-34 flex items-center" src="https://i.postimg.cc/PJ7nbRKG/Black-White-Simpel-Monochrome-Initial-Name-Logo-removebg-preview.png" alt="" />
+          <img className="w-34 flex items-center pt-8" src="https://i.postimg.cc/PJ7nbRKG/Black-White-Simpel-Monochrome-Initial-Name-Logo-removebg-preview.png" alt="" />
           
         </div>
         <div>
           <h4 className="font-semibold">Contact</h4>
-          <p className="text-sm">email: ahmedroniarm@gmail.com</p>
-          <p className="text-sm">phone: +880 1234 567890</p>
+          <p className="text-sm pt-3 text-gray-500">email: ahmedroniarm@gmail.com</p>
+          <p className="text-sm pt-1 text-gray-500">phone: +880 1234 567890</p>
         </div>
         <div>
           <h4 className="font-semibold">Links</h4>
-          <Link className="block text-sm" to="/privacy">Privacy Policy</Link>
-          <div className="flex gap-2 mt-2">
-            <a target="_blank" rel="noreferrer" href="https://facebook.com" className="link">Facebook</a>
-            <a target="_blank" rel="noreferrer" href="https://instagram.com" className="link">Instagram</a>
-            <a target="_blank" rel="noreferrer" href="https://twitter.com" className="link">Twitter</a>
+          <Link className="block text-sm pt-2 text-gray-500" to="/privacy">Privacy Policy</Link>
+          <div className="flex gap-3 pt-4">
+            <a
+              href="https://www.facebook.com/ahmed.ronimirza"
+              target="blank"
+              className="w-8 h-8 bg-gray-700 hover:bg-blue-600 text-white flex items-center justify-center rounded text-sm font-bold transition-colors"
+            >
+              f
+            </a>
+            <a
+              href="https://x.com/AhmedRoni444574"
+              target="blank"
+              className="w-8 h-8 bg-gray-700 hover:bg-blue-400 text-white flex items-center justify-center rounded text-sm font-bold transition-colors"
+            >
+              t
+            </a>
+            <a
+              href="https://www.linkedin.com/in/md-roni-hossain-9346b5260/"
+              target="blank"
+              className="w-8 h-8 bg-gray-700 hover:bg-pink-600 text-white flex items-center justify-center rounded text-sm font-bold transition-colors"
+            >
+              in
+            </a>
           </div>
         </div>
       </div>
-      <div className="bg-base-200 text-center py-3">© {new Date().getFullYear()} SkillSwap</div>
+      <div className="bg-base-200 text-center py-3">© {new Date().getFullYear()} Copyright - All right reserved</div>
     </footer>
   );
 }
@@ -366,6 +384,77 @@ function Listings() {
             </div>
           </div>
         ))}
+      </div>
+    </div>
+  );
+}
+
+/* -------------------------
+   Protected wrapper
+   -------------------------*/
+function RequireAuth({ user, children }) {
+  const location = useLocation();
+  if (user === undefined) return <div className="p-8">Checking auth...</div>;
+  if (!user) return <Navigate to="/login" state={{ from: location }} replace />;
+  return children;
+}
+
+/* -------------------------
+   Skill Details (Protected)
+   -------------------------*/
+function SkillDetailsPage() {
+  const location = useLocation();
+  const id = Number(location.pathname.split("/").pop());
+  const skill = skillsData.find((s) => s.skillId === id);
+  const { currentUser } = { currentUser: auth.currentUser };
+  const [form, setForm] = useState({ name: currentUser?.displayName || "", email: currentUser?.email || "" });
+
+  useEffect(() => {
+    setForm({ name: auth.currentUser?.displayName || "", email: auth.currentUser?.email || "" });
+  }, []);
+
+  if (!skill) return <div className="container mx-auto px-4 py-8">Skill not found</div>;
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    toast.success("Session booked successfully!");
+    setForm({ name: auth.currentUser?.displayName || "", email: auth.currentUser?.email || "" });
+  };
+
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <div className="grid md:grid-cols-2 gap-6">
+        <div>
+          <img src={skill.image} alt={skill.skillName} className="w-full h-72 object-cover rounded" />
+          <div className="mt-4">
+            <h3 className="text-2xl font-semibold">{skill.skillName}</h3>
+            <p className="text-sm text-muted">{skill.providerName} • {skill.category}</p>
+            <p className="mt-3">{skill.description}</p>
+            <ul className="mt-3 text-sm">
+              <li><strong>Price:</strong> ${skill.price}</li>
+              <li><strong>Rating:</strong> {skill.rating} ★</li>
+              <li><strong>Slots:</strong> {skill.slotsAvailable}</li>
+              <li><strong>Contact:</strong> {skill.providerEmail}</li>
+            </ul>
+          </div>
+        </div>
+
+        <div>
+          <div className="card p-6 shadow">
+            <h4 className="font-semibold mb-3">Book Session</h4>
+            <form onSubmit={handleSubmit} className="space-y-3">
+              <div>
+                <label className="block text-xs">Name</label>
+                <input value={form.name} onChange={(e)=>setForm({...form, name: e.target.value})} className="input input-bordered w-full" required/>
+              </div>
+              <div>
+                <label className="block text-xs">Email</label>
+                <input value={form.email} onChange={(e)=>setForm({...form, email: e.target.value})} className="input input-bordered w-full" type="email" required/>
+              </div>
+              <button className="btn btn-primary w-full">Submit</button>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
   );
