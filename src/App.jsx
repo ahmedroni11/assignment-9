@@ -635,3 +635,65 @@ function ForgotPasswordPage() {
   );
 }
 
+/* -------------------------
+   Profile Page (updateProfile implemented)
+   -------------------------*/
+function ProfilePage({ user }) {
+  const [editing, setEditing] = useState(false);
+  const [form, setForm] = useState({ name: "", photo: "" });
+
+  useEffect(() => {
+    setForm({ name: user?.displayName || "", photo: user?.photoURL || "" });
+  }, [user]);
+
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    try {
+      await updateProfile(auth.currentUser, { displayName: form.name, photoURL: form.photo });
+      toast.success("Profile updated");
+      setEditing(false);
+    } catch (err) {
+      toast.error(err.message || "Update failed");
+    }
+  };
+
+  if (!user) return <div className="container mx-auto px-4 py-8">Please login to see your profile</div>;
+
+  return (
+    <div className="container mx-auto px-4 py-8 max-w-2xl">
+      <div className="card p-6 shadow">
+        <div className="flex items-center gap-4">
+          <img src={user.photoURL || `https://ui-avatars.com/api/?name=${(user.displayName || user.email).split(" ")[0]}`} alt="avatar" className="w-20 h-20 rounded-full object-cover"/>
+          <div>
+            <h4 className="font-semibold text-lg">{user.displayName || "No display name"}</h4>
+            <p className="text-sm text-muted">{user.email}</p>
+          </div>
+        </div>
+
+        <div className="mt-6">
+          {!editing ? (
+            <>
+              <button className="btn btn-primary" onClick={()=>setEditing(true)}>Update Profile</button>
+            </>
+          ) : (
+            <form onSubmit={handleUpdate} className="space-y-3 mt-4">
+              <div>
+                <label className="block text-xs">Name</label>
+                <input value={form.name} onChange={(e)=>setForm({...form,name:e.target.value})} className="input input-bordered w-full"/>
+              </div>
+              <div>
+                <label className="block text-xs">Photo URL</label>
+                <input value={form.photo} onChange={(e)=>setForm({...form,photo:e.target.value})} className="input input-bordered w-full"/>
+              </div>
+              <div className="flex gap-2">
+                <button className="btn btn-success">Save</button>
+                <button type="button" onClick={()=>setEditing(false)} className="btn btn-ghost">Cancel</button>
+              </div>
+            </form>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
