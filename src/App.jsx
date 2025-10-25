@@ -138,10 +138,10 @@ function Navbar({ user, onLogout }) {
         </div>
 
         <div className="flex items-center gap-4 font-semibold">
-          <Link to="/" className="hover:underline ">Home</Link>
-          <Link to="/listings" className="hover:underline">Listings</Link>
-          <Link to="/events" className="hover:underline">Events</Link>
-          <Link to="/profile" className="hover:underline">My Profile</Link>
+          <Link to="/" className="hidden md:inline hover:underline ">Home</Link>
+          <Link to="/listings" className="hidden md:inline hover:underline">Listings</Link>
+          <Link to="/events" className="hidden md:inline hover:underline">Events</Link>
+          <Link to="/profile" className="hidden md:inline hover:underline">My Profile</Link>
 
           {user ? (
             <>

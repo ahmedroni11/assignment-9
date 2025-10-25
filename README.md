@@ -1,16 +1,70 @@
-# React + Vite
+#  SkillSwap
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+SkillSwap is a modern web platform that allows users to **share, learn, and exchange skills** through listings, events, and community collaboration.  
+Built with **React, Firebase, and Tailwind CSS**, it provides a seamless and responsive experience for learners and creators.
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+##  Project Purpose
 
-## React Compiler
+The purpose of **SkillSwap** is to connect people who want to **share their skills** with those who want to **learn**.  
+Users can:
+Create and manage listings of their skills   
+Join events and workshops  
+Connect with other learners and mentors  
+Manage their profiles easily  
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+##  Key Features
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+**User Authentication**
+Firebase Authentication with Google/Email login  
+Dynamic profile photo display  
+
+**Responsive Navbar**
+Active route highlighting (changes background on active page)  
+Sticky top navigation bar  
+
+**Listings & Events**
+Browse available skill listings  
+View or join upcoming events  
+
+**Protected Routes**
+Profile page visible only to logged-in users  
+
+**Toast Notifications**
+Instant success/error messages with `react-hot-toast`  
+
+**Modern UI**
+Built using Tailwind CSS + DaisyUI  
+Fully responsive (mobile, tablet, and desktop)  
+
+**Logo & Branding**
+Custom “SkillSwap” logo designed for the navbar  
+
+
+## Technologies Used
+
+ Category,  Technologies 
+
+ **Frontend**  React, React Router DOM 
+ **Styling**  Tailwind CSS, DaisyUI 
+ **Backend / Auth**  Firebase 
+ **Notifications**  React Hot Toast 
+ **Build Tool**  Vite 
+ **Icons**  Heroicons , Custom Icons 
+ **Hosting**  Netlify,  Vercel 
+
+
+##  NPM Packages Used
+
+Package  Purpose 
+
+`react`  Core React library 
+`react-dom`  DOM bindings for React 
+`react-router-dom`  Routing (navigation & NavLink) 
+`firebase`  Authentication and database 
+`react-hot-toast`  Toast notifications 
+`tailwindcss`  CSS framework for styling 
+`daisyui` Tailwind component library 
+`vite`  Development and build tool 
