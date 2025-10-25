@@ -697,3 +697,66 @@ function ProfilePage({ user }) {
   );
 }
 
+/* -------------------------
+   Main App
+   -------------------------*/
+export default function App() {
+  const [user, setUser] = useState(undefined);
+  
+
+  useEffect(() => {
+    const unsub = onAuthStateChanged(auth, (u) => {
+      setUser(u || null);
+    });
+    AOS.init({ duration: 700, once: true });
+    return () => unsub();
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      toast.success("Logged out");
+    } catch (err) {
+      toast.error(err.message || "Logout failed");
+    }
+  };
+
+  return (
+    <Router>
+      <div className="min-h-screen flex flex-col">
+        <Navbar user={user} onLogout={handleLogout} />
+
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/listings" element={<Listings />} />
+          <Route path="/events" element={<div className="container mx-auto px-4 py-8"><h3>Events</h3><p>Community events listed here.</p></div>} />
+
+          <Route path="/skills/:id" element={
+            <RequireAuth user={user}>
+              <SkillDetailsPage />
+            </RequireAuth>
+          } />
+
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/profile" element={
+            <RequireAuth user={user}>
+              <ProfilePage user={user} />
+            </RequireAuth>
+          } />
+
+          <Route path="/privacy" element={<div className="container mx-auto px-4 py-8"><h3>Privacy Policy</h3><p className="text-sm">This is a demo app.</p></div>} />
+
+          <Route path="*" element={<div className="container mx-auto px-4 py-8">Page not found</div>} />
+        </Routes>
+
+        <div className="mt-auto">
+          <Footer />
+        </div>
+
+        <Toaster position="top-right" />
+      </div>
+    </Router>
+  );
+}
